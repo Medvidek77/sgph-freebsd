@@ -1,16 +1,17 @@
-.POSIX:
+VERSION = 0
 
-include config.mk
-
-COMPONENTS = util
+PREFIX = /usr/local
 
 all: sgph
 
 util.o: util.c config.h util.h config.mk
-main.o: main.c config.h util.h arg.h config.mk
+	$(CC) $(CFLAGS) -c util.c -o util.o
 
-sgph: config.h $(COMPONENTS:=.o) $(COMPONENTS:=.h) main.o config.mk
-	$(CC) -o $@ $(CPPFLAGS) $(CFLAGS) $(COMPONENTS:=.o) main.o $(LDFLAGS)
+main.o: main.c config.h util.h arg.h config.mk
+	$(CC) -DVERSION=\"$(VERSION)\" $(CFLAGS) -c main.c -o main.o
+
+sgph: main.o util.o
+	$(CC) -o $@ -DVERSION=\"$(VERSION)\" main.o util.o -s
 
 config.h:
 	cp config.def.h $@
