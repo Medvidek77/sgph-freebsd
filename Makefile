@@ -4,10 +4,10 @@ PREFIX = /usr/local
 
 all: sgph
 
-util.o: util.c config.h util.h config.mk
+util.o: util.c config.h util.h
 	$(CC) $(CFLAGS) -O2 -pipe -c util.c -o util.o
 
-main.o: main.c config.h util.h arg.h config.mk
+main.o: main.c config.h util.h arg.h
 	$(CC) -DVERSION=\"$(VERSION)\" $(CFLAGS) -O2 -pipe -c main.c -o main.o
 
 sgph: main.o util.o
